@@ -34,9 +34,18 @@ body{font-family:var(--font);background:#EEF1F5;color:var(--ink);line-height:1.6
 
 /* Nav */
 .navwrap{position:sticky;top:0;z-index:200;background:var(--white);border-bottom:1px solid var(--border);margin-top:18px}
-.nav{max-width:920px;margin:0 auto;display:flex;gap:0;overflow-x:auto;scrollbar-width:none}
+.nav{max-width:1180px;margin:0 auto;display:flex;flex-wrap:nowrap;gap:0;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;scroll-behavior:smooth;padding:0 72px 0 44px}
 .nav::-webkit-scrollbar{display:none}
-.nav-btn{flex-shrink:0;padding:13px 15px;font-size:13px;font-weight:600;color:var(--muted);background:none;border:none;border-bottom:2.5px solid transparent;cursor:pointer;font-family:var(--font);white-space:nowrap;transition:all .15s}
+.navwrap{position:relative}
+.nav-arr{position:absolute;top:0;bottom:0;width:44px;border:none;background:var(--white);cursor:pointer;z-index:3;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:var(--navy);font-family:var(--font)}
+.nav-arr.l{left:0;box-shadow:8px 0 12px -6px rgba(0,0,0,.12)}
+.nav-arr.r{right:0;width:72px;gap:3px;box-shadow:-8px 0 12px -6px rgba(0,0,0,.12)}
+.nav-arr-t{font-size:11px;font-weight:700;color:var(--gold)}
+.nav-arr[hidden]{display:none}
+.nav-hint{position:absolute;right:48px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--gold);font-weight:700;pointer-events:none;background:var(--white);padding:2px 6px;border-radius:6px;z-index:2}
+.nav-hint[hidden]{display:none}
+.nav::-webkit-scrollbar{display:none}
+.nav-btn{flex:0 0 auto;padding:13px 14px;font-size:13px;font-weight:600;color:var(--muted);background:none;border:none;border-bottom:2.5px solid transparent;cursor:pointer;font-family:var(--font);white-space:nowrap;transition:all .15s}
 .nav-btn:hover{color:var(--navy)}
 .nav-btn.active{color:var(--navy);border-bottom-color:var(--gold)}
 
@@ -134,11 +143,13 @@ body{font-family:var(--font);background:#EEF1F5;color:var(--ink);line-height:1.6
 
 <div class="intro">
   <div class="intro-box">
-    💡 <b>사용법</b> — 아래 프롬프트를 <b>탭(클릭)하면 복사</b>됩니다. ChatGPT 입력창에 붙여넣고 보내세요. 타이핑 대신 <b>마이크 버튼</b>으로 말씀하셔도 됩니다. ③~⑥ 실습은 <b>📄 더미 보고서</b> 탭의 내용을 함께 붙여넣으면 됩니다. 오늘 다 못 하셔도 2차(9/15)에 이어서 합니다.
+    💡 <b>사용법</b> — 아래 프롬프트를 <b>탭(클릭)하면 복사</b>됩니다. ChatGPT 입력창에 붙여넣고 보내세요. 타이핑 대신 <b>마이크 버튼</b>으로 말씀하셔도 됩니다. ③~⑥ 실습은 각 섹션 안의 <b>'자료 전체 복사'</b> 버튼으로 가상 보고서를 함께 붙여넣으면 됩니다. 오늘 다 못 하셔도 2차(9/15)에 이어서 합니다.
   </div>
 </div>
 
 <div class="navwrap">
+  <button class="nav-arr l" id="navL" onclick="navScroll(-1)" hidden aria-label="이전 탭">‹</button>
+  <button class="nav-arr r" id="navR" onclick="navScroll(1)" aria-label="다음 탭"><span class="nav-arr-t">더보기</span>›</button>
   <div class="nav" id="nav">
     <button class="nav-btn active" data-t="s0">🛡 시작 전</button>
     <button class="nav-btn" data-t="s1">🎨 ① 첫 그림</button>
@@ -150,7 +161,7 @@ body{font-family:var(--font);background:#EEF1F5;color:var(--ink);line-height:1.6
     <button class="nav-btn" data-t="s7">🔎 ⑦ 심층 리서치</button>
     <button class="nav-btn" data-t="p5">📋 5단 프롬프트</button>
     <button class="nav-btn" data-t="rt">🌅 모닝 루틴</button>
-    <button class="nav-btn" data-t="rp">📄 더미 보고서</button>
+    <button class="nav-btn" data-t="rp">📄 실습 자료</button>
     <button class="nav-btn" data-t="vf">✅ 검증·주의</button>
   </div>
 </div>
@@ -218,7 +229,9 @@ body{font-family:var(--font);background:#EEF1F5;color:var(--ink);line-height:1.6
 <section class="section" id="sec-s2">
   <div class="sec-head"><div class="sec-ic">🔁</div><h2>② 되묻게 하기 · 답변 전에 질문하게 하라</h2></div>
   <p class="sec-desc">프롬프트를 잘 쓰려 애쓰지 마세요. 일 잘하는 리더는 지시받고 바로 뛰지 않고 먼저 확인합니다. AI에게도 그렇게 시키면 됩니다.</p>
-  <div class="callout">👉 같은 요청을 <b>두 번</b> 해보세요. 먼저 그냥, 그다음 한 줄을 붙여서. 차이를 직접 보시는 게 목적입니다.</div>
+  <div class="callout">👉 같은 요청을 <b>두 번</b> 해보세요. 먼저 그냥, 그다음 한 줄을 붙여서. 차이를 직접 보시는 게 목적입니다. 되묻는 질문에 답하실 때 <b>자료 C(안건 메모)</b>를 붙여넣으면 더 구체적인 결과가 나옵니다.</div>
+
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin:-4px 0 14px"><button class="btn-copy-full" onclick="cpReport(this,'rpC')">📋 자료 C 전체 복사</button><button class="btn-copy-full" style="background:#fff;color:var(--navy);border:1.5px solid var(--navy)" onclick="goTab('rp')">📄 자료 내용 보기</button></div>
 
   <div class="pc">
     <div class="pc-head"><span class="pc-step">먼저</span><span class="pc-title">그냥 시켰을 때 — 일반론이 나옵니다</span>
@@ -248,7 +261,9 @@ body{font-family:var(--font);background:#EEF1F5;color:var(--ink);line-height:1.6
 <section class="section" id="sec-s3">
   <div class="sec-head"><div class="sec-ic">📑</div><h2>③ 보고와 회의의 압축 · 듣는 자리에서 정하는 자리로</h2></div>
   <p class="sec-desc">회의는 보고를 듣는 시간이 아니라 결정을 내리는 시간이어야 합니다. "요약해줘"가 아니라 "의사결정 구조로 재배열해줘"를 시킵니다.</p>
-  <div class="callout">👉 <b>먼저</b> '📄 더미 보고서' 탭에서 보고서를 복사한 뒤, 아래 프롬프트와 <b>함께</b> 붙여넣으세요. 본인의 실제 안건이 있으시면 그걸로 하셔도 됩니다.</div>
+  <div class="callout">👉 아래 <b>'자료 A 전체 복사'</b>를 누른 뒤 ChatGPT에 붙여넣고, 그 위에 프롬프트를 붙여넣으세요. 짧게 하시려면 <b>자료 C</b>로. 본인의 실제 안건이 있으시면 그걸로 하셔도 됩니다.</div>
+
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin:-4px 0 14px"><button class="btn-copy-full" onclick="cpReport(this,'rpA')">📋 자료 A 전체 복사</button><button class="btn-copy-full" style="background:var(--muted)" onclick="cpReport(this,'rpC')">📋 자료 C 복사 (짧게)</button><button class="btn-copy-full" style="background:#fff;color:var(--navy);border:1.5px solid var(--navy)" onclick="goTab('rp')">📄 자료 내용 보기</button></div>
 
   <div class="pc">
     <div class="pc-head"><span class="pc-step">기본</span><span class="pc-title">3줄 결론 + 핵심 리스크 3 + 숨은 가정 + 오늘의 결정 한 문장</span>
@@ -279,7 +294,9 @@ body{font-family:var(--font);background:#EEF1F5;color:var(--ink);line-height:1.6
 <section class="section" id="sec-s4">
   <div class="sec-head"><div class="sec-ic">😈</div><h2>④ 악마의 변호인 · 가장 날카로운 질문을 미리 받는다</h2></div>
   <p class="sec-desc">AI를 '내 편'이 아니라 '반대편 검토자(레드팀)'로 세웁니다. 신한금융이 2026년 경영포럼에서 한 것과 같은 방식입니다. 최종 판단은 사람이.</p>
-  <div class="callout">👉 같은 더미 보고서로 합니다. 보고서 안에는 <b>의도적으로 심어둔 약한 가정</b>이 여섯 개 있습니다 — AI가 몇 개나 잡아낼까요?</div>
+  <div class="callout">👉 <b>자료 A</b>로 합니다. 보고서 안에는 <b>의도적으로 심어둔 약한 가정</b>이 여섯 개 있습니다 — AI가 몇 개나 잡아낼까요?</div>
+
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin:-4px 0 14px"><button class="btn-copy-full" onclick="cpReport(this,'rpA')">📋 자료 A 전체 복사</button><button class="btn-copy-full" style="background:#fff;color:var(--navy);border:1.5px solid var(--navy)" onclick="goTab('rp')">📄 자료 내용 보기</button></div>
 
   <div class="pc">
     <div class="pc-head"><span class="pc-step">기본</span><span class="pc-title">반대하는 이사회 멤버의 질문 열 가지</span>
@@ -308,7 +325,9 @@ body{font-family:var(--font);background:#EEF1F5;color:var(--ink);line-height:1.6
 <section class="section" id="sec-s5">
   <div class="sec-head"><div class="sec-ic">⚖️</div><h2>⑤ 찬반 분해와 실패 시나리오 · 편향을 걷어낸다</h2></div>
   <p class="sec-desc">내 결론을 뒷받침할 근거만 모으는 습관을 끊습니다. 찬반을 같은 무게로, 실패를 미리 그려보고 조기 경보를 답니다.</p>
-  <div class="callout">👉 더미 보고서의 '150억 AI 상담 에이전트 확대' 안건을 놓고 의사결정 파트너로 씁니다.</div>
+  <div class="callout">👉 <b>자료 A</b>의 '150억 AI 상담 에이전트 확대' 안건을 놓고 의사결정 파트너로 씁니다.</div>
+
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin:-4px 0 14px"><button class="btn-copy-full" onclick="cpReport(this,'rpA')">📋 자료 A 전체 복사</button><button class="btn-copy-full" style="background:#fff;color:var(--navy);border:1.5px solid var(--navy)" onclick="goTab('rp')">📄 자료 내용 보기</button></div>
 
   <div class="pc">
     <div class="pc-head"><span class="pc-step">기본</span><span class="pc-title">찬성 5 · 반대 5 · 승인/보류/반려 시나리오</span>
@@ -348,20 +367,22 @@ body{font-family:var(--font);background:#EEF1F5;color:var(--ink);line-height:1.6
 <section class="section" id="sec-s6">
   <div class="sec-head"><div class="sec-ic">💬</div><h2>⑥ 언어 번역과 한 문장 · 실무진의 말을 경영의 말로</h2></div>
   <p class="sec-desc">경영진이 AI 전문가가 될 필요는 없습니다. 다만 실무진이 AI·에이전트·자동화로 제안해 올 때 그 뜻을 알아듣고 질문할 수 있어야 합니다.</p>
-  <div class="callout">👉 더미 보고서의 기술 설명 부분을 경영 언어로 바꿔 봅니다. 그리고 "우리 조직은 AI를 어떻게 볼 것인가"를 한 문장으로 정해 봅니다.</div>
+  <div class="callout">👉 <b>자료 B(실무진 기술 제안서)</b>를 경영 언어로 바꿔 봅니다. 실무진이 실제로 이런 문서를 올립니다. 그리고 "우리 조직은 AI를 어떻게 볼 것인가"를 한 문장으로 정해 봅니다.</div>
+
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin:-4px 0 14px"><button class="btn-copy-full" onclick="cpReport(this,'rpB')">📋 자료 B 전체 복사</button><button class="btn-copy-full" style="background:#fff;color:var(--navy);border:1.5px solid var(--navy)" onclick="goTab('rp')">📄 자료 내용 보기</button></div>
 
   <div class="pc">
     <div class="pc-head"><span class="pc-step">기본</span><span class="pc-title">기술 → 고객 가치 → 재무 영향 → KPI</span>
       <button class="copy-btn" onclick="cpBtn(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></button>
     </div>
-    <div class="pc-body"><div class="ptext" onclick="cp(this)">아래 보고서의 기술 설명을 경영진의 언어로 다시 써 주세요. 기술 용어는 쓰지 말고.
+    <div class="pc-body"><div class="ptext" onclick="cp(this)">아래 실무진 제안서를 경영진의 언어로 다시 써 주세요. 기술 용어는 쓰지 말고.
 
 1. 이 기술로 고객 경험이 어떻게 바뀌는가 — 3문장
 2. 비용과 시간 구조가 어떻게 달라지는가 — 항목별로
 3. 성과를 무엇으로 볼 것인가 — 기술 지표가 아닌 사업 지표(KPI) 3개
 4. 실무진에게 되물어야 할 질문 3가지
 
-[아래에 보고서 전문을 붙여넣으세요]</div></div>
+[아래에 자료 B 전문을 붙여넣으세요]</div></div>
     <div class="var-t" onclick="vt(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg> 실무진 언어 알아듣기 3개</div>
     <div class="var-l">
       <div class="var-i"><div class="var-h">용어 풀이</div><div class="var-p" onclick="cp(this)">AI 에이전트, RPA, LLM, 파인튜닝, RAG — 이 다섯 용어를 경영진이 알아들을 수 있게 각각 두 문장으로, 은행 업무 비유를 들어 설명해줘.</div></div>
@@ -495,49 +516,170 @@ body{font-family:var(--font);background:#EEF1F5;color:var(--ink);line-height:1.6
   <div class="callout">💡 <b>유료 계정이면</b> — 시간이 아니라 사건(특정 메일 도착 등)에 반응하는 자동 실행, 브리핑을 알림 대신 <b>메일함으로</b> 받기까지 됩니다. 2차 실습 페이지에 설정 절차를 정리해 두었습니다.</div>
 </section>
 
-<!-- 더미 보고서 -->
+<!-- 실습 자료 -->
 <section class="section" id="sec-rp">
-  <div class="sec-head"><div class="sec-ic">📄</div><h2>실습용 더미 보고서</h2></div>
-  <p class="sec-desc">③~⑥ 실습에서 사용하는 가상 보고서입니다. '전체 복사'한 뒤, 각 실습 프롬프트와 함께 붙여넣으세요. 본인의 실제 안건이 있으시면 그걸로 하셔도 됩니다.</p>
-  <div class="tag-warn">⚠ 교육용 가상자료 — 실제 범농협 데이터 아님</div>
-  <div class="report">
+  <div class="sec-head"><div class="sec-ic">📄</div><h2>실습 자료 3종 · 전체 복사해서 프롬프트와 함께</h2></div>
+  <p class="sec-desc">③~⑥ 실습에서 쓰는 가상 자료입니다. 각 자료의 <b>'전체 복사'</b>를 누른 뒤, 실습 프롬프트를 붙여넣고 그 아래에 자료를 붙여넣으세요. 본인의 실제 안건이 있으시면 그걸로 하셔도 됩니다.</p>
+  <div class="tag-warn">⚠ 교육용 가상자료 — 실제 범농협 데이터 아님. 수치·사업·인물 모두 가공.</div>
+
+  <div class="callout">📌 <b>어떤 자료를 어디에</b> — 자료 A(투자 검토 보고서) → ③ 보고 압축 · ④ 악마의 변호인 · ⑤ 찬반·시나리오 &nbsp;|&nbsp; 자료 B(실무진 기술 제안서) → ⑥ 번역·한 문장 &nbsp;|&nbsp; 자료 C(임원회의 안건 메모) → ② 되묻게 · ③ 짧은 버전</div>
+
+  <!-- 자료 A -->
+  <div class="report" style="margin-bottom:1.2rem">
     <div class="report-top">
-      <h3>범농협 디지털전략 — 2026년 상반기 리뷰 및 신규 투자 검토</h3>
-      <button class="btn-copy-full" onclick="cpReport(this)">📋 보고서 전체 복사</button>
+      <h3>자료 A · 범농협 디지털전략 — 2026 상반기 리뷰 및 'AI 상담 에이전트 전 계열 확대' 투자 검토 보고서 (전문)</h3>
+      <button class="btn-copy-full" onclick="cpReport(this,'rpA')">📋 자료 A 전체 복사</button>
     </div>
-    <pre id="rptext">＜교육용 가상자료＞ 본 보고서의 수치·사업·인물은 모두 가공된 것으로, 실제 범농협의 데이터와 무관합니다.
+    <pre id="rpA">＜교육용 가상자료＞ 본 보고서의 수치·사업·인물은 모두 가공된 것으로, 실제 범농협의 데이터와 무관합니다.
 
-범농협 디지털전략협의회 — 2026년 상반기 디지털 성과 리뷰 및 'AI 상담 에이전트 전 계열 확대' 투자 검토 보고서
-작성: 디지털전략팀 | 보고일: 2026. 8. 12
+범농협 디지털전략협의회
+2026년 상반기 디지털 성과 리뷰 및 'AI 상담 에이전트 전 계열 확대' 투자 검토 보고서
+작성: 디지털전략팀 | 보고일: 2026. 8. 12 | 보고 대상: 범농협 경영협의회
 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 1. Executive Summary
-2026년 상반기 범농협 디지털 채널은 전반적으로 양호한 성과를 거두었다. 농협은행 모바일 앱 월간 활성 사용자(MAU)는 전분기 대비 11% 증가한 1,180만 명을 기록했고, 농축협 창구의 AI 상담 지원 도구 시범 적용 이후 상담 건당 처리 시간은 평균 23% 단축됐다. 농협생명의 AI 가입설계 베타는 참여 설계사 만족도 88%를 기록했다. 이러한 성과를 바탕으로, 협의회는 'AI 상담 에이전트'를 은행·생명·손해·농축협 창구 전 계열로 확대하는 신규 투자(총 150억 원, 12개월)를 검토 중이며, 경영진의 승인을 요청한다.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026년 상반기 범농협 디지털 채널은 전반적으로 양호한 성과를 거두었다. 농협은행 모바일 앱 월간 활성 사용자(MAU)는 전분기 대비 11% 증가한 1,180만 명을 기록했고, 농축협 창구의 AI 상담 지원 도구 시범 적용 이후 상담 건당 처리 시간은 평균 23% 단축됐다. 농협생명의 AI 가입설계 베타는 참여 설계사 만족도 88%를 기록했으며, 농협손해보험의 AI 의료문서 분류 시범은 1차 분류 소요를 2.1일에서 0.4일로 줄였다.
 
+이러한 성과를 바탕으로, 협의회는 'AI 상담 에이전트'를 은행·생명·손해·농축협 창구 전 계열로 확대하는 신규 투자(총 150억 원, 12개월)를 검토 중이며, 경영진의 승인을 요청한다. 본 투자는 1차 연도에 약 120억 원의 인건비 절감 효과가 기대되며, 투자 회수 기간은 약 15개월로 산출된다.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 2. 2026년 상반기 핵심 실적
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 · 농협은행 모바일 앱 MAU: 1,180만 명 (전분기 대비 +11%)
+· 농협은행 앱 평균 체류 시간: 앱 개편 후 +15%
 · 농축협 창구 AI 상담 지원 시범(120개 점포): 상담 건당 처리 시간 평균 23% 단축
 · 농협생명 AI 가입설계 베타: 참여 설계사 150명 대상 설문, 만족 이상 88%
 · 농협손해보험 AI 의료문서 분류 시범: 서류 접수 후 1차 분류까지 평균 2.1일 → 0.4일
 · 하나로마트 앱 신규 가입: 상반기 32만 명 (목표 대비 +6%)
+· 디지털 채널 민원 건수: 전분기 대비 -3%
 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 3. 사업 영역별 성과
-(1) 농협은행: MAU 성장이 두드러졌다. 특히 3~4월 정책자금 신청 시즌에 트래픽이 집중되며 사용량이 크게 늘었다. 앱 개편 이후 체류 시간도 15% 증가했다.
-(2) 농축협 창구: 시범 점포 120곳에서 AI 상담 지원 도구를 적용한 결과 처리 시간이 단축됐다. 다만 시범 점포는 수도권·광역시 대형 점포 위주로 선정됐다.
-(3) 농협생명: 베타 참여 설계사 150명 대상 설문에서 88%가 "만족" 또는 "매우 만족"으로 응답했다. 이 결과를 근거로 전 설계사 대상 확대가 타당하다고 판단된다.
-(4) 농협손해보험: 의료문서 AI 분류로 접수 후 1차 분류 소요가 크게 줄었다. 최종 심사 단계는 기존과 동일하게 사람이 수행한다.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+(1) 농협은행
+MAU 성장이 두드러졌다. 특히 3~4월 정책자금 신청 시즌에 트래픽이 집중되며 사용량이 크게 늘었다. 앱 개편 이후 체류 시간도 15% 증가했다. 정책자금 추천 기능의 이용률이 높아 기업 고객 유입에 기여한 것으로 분석된다.
 
-4. 신규 투자 안건: AI 상담 에이전트 전 계열 확대
-· 투자 규모: 총 150억 원   · 기간: 12개월(2026.10~2027.9)
-· 내용: AI 상담 엔진 고도화, 전 계열 창구 단말 연동, 직원 교육, 마케팅
-· 기대 효과: 상담 인력 생산성 25% 향상, 연간 인건비 절감 효과 약 120억 원(1차 연도)
+(2) 농축협 창구
+시범 점포 120곳에서 AI 상담 지원 도구를 적용한 결과 상담 건당 처리 시간이 평균 23% 단축됐다. 시범 점포는 수도권·광역시 소재 대형 점포 위주로 선정됐으며, 시범 기간은 3개월이었다. 직원 대상 사후 설문에서는 "도움이 된다" 응답이 71%였고, "업무가 오히려 늘었다" 응답이 18%였다.
+
+(3) 농협생명
+베타 참여 설계사 150명 대상 설문에서 88%가 "만족" 또는 "매우 만족"으로 응답했다. 참여 설계사는 디지털 활용도가 높은 자원자 중심으로 구성됐다. 이 결과를 근거로 전 설계사 대상 확대가 타당하다고 판단된다.
+
+(4) 농협손해보험
+의료문서 AI 분류로 접수 후 1차 분류 소요가 크게 줄었다. 최종 심사 단계는 기존과 동일하게 사람이 수행하며, AI 분류 결과와 최종 심사 결과의 일치율은 약 82%였다.
+
+(5) 농협경제지주 · 하나로마트
+앱 신규 가입은 목표를 초과했으나, 가입 후 30일 내 재구매율은 전분기와 유사한 수준(24%)에 머물렀다.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+4. 시장 환경 및 경쟁사 동향
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+국내 주요 금융그룹은 2025~2026년에 걸쳐 생성형 AI와 AI 에이전트를 상담·심사·리서치 업무에 확대 적용 중이다. 경쟁사 대비 우리의 디지털 채널 규모는 유사하나, AI 에이전트의 업무 적용 범위는 다소 뒤처져 있는 것으로 평가된다. 따라서 이번 투자는 격차 해소를 위해 시급하다.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+5. 신규 투자 안건: AI 상담 에이전트 전 계열 확대
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+· 투자 규모: 총 150억 원
+· 기간: 12개월 (2026.10 ~ 2027.9)
+· 내용: AI 상담 엔진 고도화(60억), 전 계열 창구 단말 연동(45억), 직원 교육(15억), 마케팅 및 기타(30억)
+· 기대 효과: 상담 인력 생산성 25% 향상, 연간 인건비 절감 효과 약 120억 원 (1차 연도)
 · 투자 회수 기간: 약 15개월
-· 기대 효과 산출 근거: 시범 점포 120곳의 처리 시간 단축률(23%)이 전국 4,500여 개 농축협 창구 전체에 동일하게 적용된다고 가정하고, 상담 인력 평균 인건비를 곱해 산출.
+· 기대 효과 산출 근거: 시범 점포 120곳의 처리 시간 단축률(23%)이 전국 4,500여 개 농축협 창구 전체에 동일하게 적용된다고 가정하고, 상담 인력 평균 인건비를 곱해 산출. 절감 인력의 재배치·전환 비용은 별도 산정하지 않았다.
 
-5. 리스크 및 향후 전망
-상반기 11% MAU 성장률이 연중 지속된다고 가정할 때, 2026년 말 MAU는 1,400만 명을 넘어설 것으로 전망된다. 디지털 채널 성장은 구조적이므로 현재 추세는 하반기에도 이어질 것으로 본다. 신규 투자의 주요 리스크는 시스템 안정성이며 충분한 QA로 관리 가능하다. 2026년 1월 시행된 AI기본법과 6월 금융분야 AI 가이드라인은 현행 체계로 대응 가능한 수준으로 판단된다. 시장 환경은 우호적이며 별도의 외부 리스크 요인은 크지 않은 것으로 판단된다.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+6. 추진 일정 및 조직
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+· 2026.10 ~ 12: 엔진 고도화 및 은행·생명 우선 적용
+· 2027.1 ~ 3: 손해보험 및 농축협 창구 1,500곳 확대
+· 2027.4 ~ 9: 잔여 창구 전면 확대 및 안정화
+· 추진 조직: 디지털전략팀 주관, 각 계열사 디지털 담당 부서 참여. 현장 창구 대표 참여는 확대 단계에서 검토 예정.
 
-6. 결론 및 건의
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+7. 리스크 및 향후 전망
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+상반기 11% MAU 성장률이 연중 지속된다고 가정할 때, 2026년 말 MAU는 1,400만 명을 넘어설 것으로 전망된다. 디지털 채널 성장은 구조적이므로 현재 추세는 하반기에도 이어질 것으로 본다.
+
+신규 투자의 주요 리스크는 시스템 안정성이며 충분한 QA로 관리 가능하다. 2026년 1월 시행된 AI기본법과 6월 금융분야 AI 가이드라인은 현행 체계로 대응 가능한 수준으로 판단된다. 시장 환경은 우호적이며 별도의 외부 리스크 요인은 크지 않은 것으로 판단된다.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+8. 결론 및 건의
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 상반기 호실적을 기반으로 성장 모멘텀을 확보하였다. AI 상담 에이전트 전 계열 확대 투자(150억 원)는 단기간 내 높은 효과가 기대되는 사업으로, 경영진의 조속한 승인을 건의한다.
+
+＜끝＞ 교육용 가상자료</pre>
+  </div>
+
+  <!-- 자료 B -->
+  <div class="report" style="margin-bottom:1.2rem">
+    <div class="report-top">
+      <h3>자료 B · 실무진 기술 제안서 — 'AI 상담 에이전트 아키텍처 및 구축 방안' (기술 용어 원문)</h3>
+      <button class="btn-copy-full" onclick="cpReport(this,'rpB')">📋 자료 B 전체 복사</button>
+    </div>
+    <pre id="rpB">＜교육용 가상자료＞ 실무진이 경영진에게 올린 기술 제안서를 가정한 문서입니다. 기술 용어를 그대로 두었습니다.
+
+AI 상담 에이전트 아키텍처 및 구축 방안 (제안)
+작성: 디지털플랫폼부 AI개발팀 | 2026. 8. 5
+
+1. 개요
+현행 규칙 기반 챗봇을 LLM 기반 에이전트로 전환한다. 계열사별 상담 지식베이스를 벡터DB로 구축하고 RAG 파이프라인을 적용하여 답변 근거를 내부 문서로 한정한다. 상담 이력과 상품 규정에 대해 도메인 파인튜닝을 병행해 응답 정확도를 높인다.
+
+2. 아키텍처
+· 오케스트레이션 레이어: 사용자 의도 분류 → 서브 에이전트 라우팅(예금/대출/보험/카드)
+· 툴 호출: 계정 조회·상품 검색·일정 등록 API를 함수 호출(Function Calling)로 연결
+· 가드레일: 입력 PII 마스킹, 출력 금지어 필터, 환각 탐지(근거 문서 인용률 임계치 0.85)
+· 관측성: 전 대화 로깅, 토큰 사용량·지연시간·에스컬레이션율 대시보드
+· 배포: 사내 프라이빗 클라우드, 모델은 보안 평가 통과 외부 LLM API + 온프레미스 sLLM 하이브리드
+
+3. 기대 지표
+· 1차 응답 정확도(RAG 인용 기준) 92%
+· 평균 응답 지연 1.8초 이하
+· 상담원 에스컬레이션율 35% → 18%
+· 토큰 비용 월 약 4,200만 원 (피크 기준)
+
+4. 리스크
+· 환각: RAG 인용률 임계치 미달 시 자동 에스컬레이션
+· 데이터: 계열사 지식베이스 표준화 미비, 문서 최신성 관리 체계 필요
+· 규제: 금융분야 AI 가이드라인상 설명가능성 요건 — 응답별 근거 문서 ID 로깅으로 대응
+· 인력: 프롬프트 엔지니어 2명, MLOps 2명 충원 필요
+
+5. 요청 사항
+· 3개월 PoC 예산 8억 원 승인
+· 계열사 지식베이스 접근 권한 및 데이터 거버넌스 협의체 구성
+· 보안 평가 및 망분리 예외 신청 지원
+
+＜끝＞ 교육용 가상자료</pre>
+  </div>
+
+  <!-- 자료 C -->
+  <div class="report">
+    <div class="report-top">
+      <h3>자료 C · 임원회의 안건 메모 — 이번 주 경영협의회 (3개 안건)</h3>
+      <button class="btn-copy-full" onclick="cpReport(this,'rpC')">📋 자료 C 전체 복사</button>
+    </div>
+    <pre id="rpC">＜교육용 가상자료＞ 임원회의 전에 받는 안건 메모를 가정한 문서입니다.
+
+2026년 제34차 범농협 경영협의회 안건 메모
+일시: 2026. 9. 9(화) 08:00 | 장소: 중앙본부 대회의실 | 배포: 협의회 위원
+
+[안건 1] AI 상담 에이전트 전 계열 확대 투자 승인 (디지털전략팀)
+· 요청: 150억 원, 12개월. 세부는 별첨 보고서.
+· 쟁점: 시범 결과의 전국 적용 타당성, 인력 재배치 방안, 규제 대응.
+· 결정 요청: 승인 / 조건부 승인 / 보류.
+
+[안건 2] 추석 성수기 농축산물 유통 대응 (경제지주 유통본부)
+· 현황: 추석(9/24~26)을 앞두고 선물세트 수요 전년 대비 +9% 예상. 물류센터 3곳 가동률 94%.
+· 쟁점: 배송 지연 리스크, 하나로마트 앱 주문 급증 대비 서버 증설 여부.
+· 결정 요청: 임시 인력 200명 투입 예산(6억 원) 및 서버 증설(2억 원) 승인.
+
+[안건 3] 그룹 AI 거버넌스 표준안 중간 보고 (농협금융지주 리스크관리부)
+· 현황: 4월 착수, 그룹 표준안 초안 완성. 계열사 내재화 단계 진입.
+· 쟁점: 계열사별 적용 범위 차이, 신규 AI 서비스 승인 절차의 소요 기간.
+· 결정 요청: 없음(보고). 다만 안건 1 승인 시 본 거버넌스 절차 적용 여부 확인 필요.
+
+[참고] 전 회의 미결 사항
+· 농협생명 AI 가입설계 전 설계사 확대 — 교육 일정 미확정
+· 디지털 채널 민원 유형 분석 보고 — 다음 회의로 이월
 
 ＜끝＞ 교육용 가상자료</pre>
   </div>
@@ -596,11 +738,24 @@ function cpBtn(btn){
   });}
 }
 // copy full report
-function cpReport(btn){
-  const t=document.getElementById('rptext').textContent.trim();
+const navEl=document.getElementById('nav');
+function navScroll(d){navEl.scrollBy({left:d*240,behavior:'smooth'});}
+function navUpd(){
+  const max=navEl.scrollWidth-navEl.clientWidth;
+  document.getElementById('navL').hidden = navEl.scrollLeft<=4;
+  document.getElementById('navR').hidden = navEl.scrollLeft>=max-4;
+}
+navEl.addEventListener('scroll',navUpd); window.addEventListener('resize',navUpd); setTimeout(navUpd,50);
+document.querySelectorAll('.nav-btn').forEach(b=>b.addEventListener('click',()=>{b.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});}));
+function goTab(id){
+  const b=document.querySelector('.nav-btn[data-t="'+id+'"]'); if(b) b.click();
+}
+function cpReport(btn,id){
+  const t=document.getElementById(id||'rpA').textContent.trim();
+  const label=btn.textContent;
   wr(t,()=>{
     btn.classList.add('copied');btn.textContent='✓ 복사됨';showToast();
-    setTimeout(()=>{btn.classList.remove('copied');btn.textContent='📋 보고서 전체 복사';},1600);
+    setTimeout(()=>{btn.classList.remove('copied');btn.textContent=label;},1600);
   });
 }
 // toast
