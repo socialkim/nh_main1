@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1차 실습 안내 · 범농협 최고경영진 AI 세미나</title>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" rel="stylesheet">
+<style>
+:root{
+  --ink-1:#111827; --ink-2:#4B5563; --ink-3:#9CA3AF;
+  --surface:#FFFFFF; --bg:#F7F8FA; --line:#E5E7EB;
+  --accent:#0B4DA2; --navy:#0E2A47;
+  --font:'Pretendard Variable',-apple-system,system-ui,sans-serif;
+  --fs-hero:60px; --fs-h1:22px; --fs-h2:20px; --fs-lg:17px; --fs-base:16px; --fs-sm:13px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--font);background:var(--bg);color:var(--ink-1);
+  line-height:1.65;-webkit-font-smoothing:antialiased;overflow-wrap:anywhere}
+
+.top{background:var(--navy);color:#fff;padding:16px}
+.top .kicker{font-size:var(--fs-sm);color:#9DB6D4;font-weight:600}
+.top h1{font-size:var(--fs-h1);font-weight:700;margin-top:4px;letter-spacing:-.02em}
+
+.tabs{position:sticky;top:0;z-index:50;background:var(--surface);
+  border-bottom:1px solid var(--line);display:flex;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;min-height:52px;padding:0 16px;border:none;background:none;
+  font-family:var(--font);font-size:var(--fs-base);font-weight:600;color:var(--ink-3);
+  border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap}
+.tab.on{color:var(--accent);border-bottom-color:var(--accent)}
+
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 120px}
+.panel{display:none}
+.panel.on{display:block}
+
+.hero{background:var(--surface);border-radius:12px;padding:24px;margin-bottom:24px}
+.hero .label{font-size:var(--fs-sm);color:var(--ink-3);font-weight:600}
+.hero .num{font-size:var(--fs-hero);font-weight:700;line-height:1.05;letter-spacing:-.03em;
+  font-variant-numeric:tabular-nums;margin-top:4px}
+.hero .num .unit{font-size:22px;color:var(--ink-3);margin-left:4px}
+.hero .say{font-size:var(--fs-lg);color:var(--ink-2);margin-top:12px;font-weight:500}
+
+.prog{display:flex;gap:12px;margin-bottom:32px;flex-wrap:wrap}
+.pcard{flex:1 1 40%;background:var(--surface);border-radius:12px;padding:16px;text-align:left;
+  border:none;font-family:var(--font);cursor:pointer;min-height:76px;min-width:0}
+.pcard .pl{font-size:var(--fs-sm);color:var(--ink-3);font-weight:600}
+.pcard .pv{font-size:var(--fs-base);font-weight:600;margin-top:4px;color:var(--ink-2)}
+.pcard.done{box-shadow:inset 3px 0 0 var(--accent)}
+.pcard.done .pv{color:var(--accent)}
+.pcard.done .pv::after{content:' ✓'}
+
+.sec{margin-top:48px}
+.sec:first-of-type{margin-top:0}
+.sec > h2{font-size:var(--fs-h2);font-weight:700;letter-spacing:-.01em;margin-bottom:8px}
+.sec > .desc{font-size:var(--fs-base);color:var(--ink-2);margin-bottom:20px}
+
+.step{background:var(--surface);border-radius:12px;padding:20px;margin-bottom:16px}
+.step .sn{font-size:var(--fs-sm);font-weight:700;color:var(--accent)}
+.step h3{font-size:var(--fs-lg);font-weight:700;margin-top:4px}
+.step p{font-size:var(--fs-base);color:var(--ink-2);margin-top:8px}
+.step p b{color:var(--ink-1);font-weight:600}
+.path{display:inline-block;background:var(--bg);border-radius:8px;padding:4px 8px;
+  font-size:var(--fs-base);font-weight:600;color:var(--ink-1);margin-top:8px}
+
+.say-card{background:var(--surface);border-radius:12px;padding:20px;margin-bottom:16px}
+.say-card .cap{font-size:var(--fs-sm);color:var(--ink-3);font-weight:600;margin-bottom:8px}
+.quote{font-size:var(--fs-lg);line-height:1.7;color:var(--ink-1);font-weight:500;
+  background:var(--bg);border-radius:10px;padding:16px;cursor:pointer;word-break:keep-all}
+.copy{margin-top:12px;width:100%;min-height:48px;border:none;border-radius:10px;
+  background:var(--accent);color:#fff;font-family:var(--font);font-size:var(--fs-base);
+  font-weight:600;cursor:pointer}
+.copy.ok{background:#12A150}
+
+.more{margin-top:8px;margin-bottom:16px}
+.more summary{list-style:none;min-height:48px;display:flex;align-items:center;
+  font-size:var(--fs-base);font-weight:600;color:var(--ink-2);cursor:pointer;padding:0 4px}
+.more summary::-webkit-details-marker{display:none}
+.more summary::before{content:'＋';margin-right:8px;color:var(--accent);font-weight:700}
+.more[open] summary::before{content:'－'}
+.more .inner{padding:4px 4px 8px}
+
+.note{font-size:var(--fs-base);color:var(--ink-2);background:var(--surface);
+  border-radius:12px;padding:20px;margin-top:16px}
+.note b{color:var(--ink-1)}
+.note ul{margin:8px 0 0 16px}
+.note li{margin-top:8px}
+
+.mission{background:var(--navy);color:#fff;border-radius:12px;padding:24px;margin-top:48px}
+.mission .ml{font-size:var(--fs-sm);color:#9DB6D4;font-weight:600}
+.mission .mt{font-size:22px;font-weight:700;margin-top:4px;letter-spacing:-.01em}
+.mission .md{font-size:var(--fs-base);color:#9DB6D4;margin-top:12px}
+
+.toast{position:fixed;left:50%;bottom:96px;transform:translate(-50%,16px);
+  background:var(--ink-1);color:#fff;padding:16px 24px;border-radius:12px;
+  font-size:var(--fs-base);font-weight:600;opacity:0;transition:.3s;pointer-events:none;z-index:99}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.fz{position:fixed;right:16px;bottom:20px;display:flex;gap:8px;z-index:60}
+.fz button{width:52px;height:52px;border-radius:12px;border:1px solid var(--line);
+  background:var(--surface);font-family:var(--font);font-size:17px;font-weight:700;cursor:pointer}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="kicker">범농협 최고경영진 AI 세미나 · 1차 (9/3)</div>
+  <h1>리더의 AI 사용법 — 실습</h1>
+</div>
+
+<div class="tabs">
+  <button class="tab on" data-p="pB">① 그림 한 장</button>
+  <button class="tab" data-p="pD">② 내 안건</button>
+  <button class="tab" data-p="pE">③ 걸어두기</button>
+  <button class="tab" data-p="pC">＋ 되묻기 연습</button>
+  <button class="tab" data-p="pA">＋ 안전 설정</button>
+  <button class="tab" data-p="p0">준비</button>
+</div>
+
+<div class="wrap">
+
+<div class="hero" id="hero">
+  <div class="label">지금 하실 것</div>
+  <div class="num" id="heroNum">A<span class="unit" id="heroUnit">단계</span></div>
+  <div class="say" id="heroSay">기능보다 먼저,<br>안전하게 쓰는 법을 맞춥니다.</div>
+</div>
+
+<!-- ══ A ══ -->
+<div class="panel" id="pA">
+    <div class="sec">
+    <h2>왜 이걸 하시는가</h2>
+    <p class="desc">기능을 배우는 게 아니라, 임원의 시간 문제를 푸는 것입니다.</p>
+    <div class="note">
+      <ul>
+        <li><b>안전 설정</b> — 쓰기 전에 지켜야 할 선을 먼저 정해 둡니다.</li>
+        <li><b>그림</b> — "이런 느낌으로"를 설명하는 대신 보여 줍니다.</li>
+        <li><b>되묻게 하기</b> — 프롬프트를 잘 쓰려 애쓰지 않고도 원하는 답을 얻습니다.</li>
+        <li><b>다섯 영역</b> — 회의가 보고 듣는 자리에서 결정하는 자리가 됩니다.</li>
+        <li><b>심층 리서치</b> — 직접 여러 자료를 찾아보기 어려우니, 한 번에 갈무리해 옵니다.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h2>A-1. 화면 익히기</h2>
+    <p class="desc">세 곳만 아시면 됩니다.</p>
+    <div class="step">
+      <div class="sn">01</div>
+      <h3>새 대화 여는 곳</h3>
+      <p>왼쪽 위 <b>연필 모양</b> 아이콘입니다. 주제가 바뀌면 새 대화를 여는 편이 답이 정확합니다.</p>
+    </div>
+    <div class="step">
+      <div class="sn">02</div>
+      <h3>지난 대화 목록</h3>
+      <p>왼쪽 위 <b>줄 세 개(메뉴)</b>를 누르면 지금까지 나눈 대화가 모두 있습니다.</p>
+    </div>
+    <div class="step">
+      <div class="sn">03</div>
+      <h3>설정으로 들어가는 길</h3>
+      <p>메뉴를 연 뒤 <b>맨 아래 내 이름</b>을 누르면 설정입니다. 아래 보안 설정은 모두 여기서 합니다.</p>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h2>A-2. 말로 입력하는 두 가지</h2>
+    <p class="desc">오늘 실습은 전부 ①번으로 합니다. 타이핑하지 않습니다.</p>
+    <div class="step">
+      <div class="sn">① 받아쓰기</div>
+      <h3>입력창 안의 마이크</h3>
+      <p>누르고 말하면 <b>말한 대로 글자가 적힙니다.</b> 다 말한 뒤 보내기를 누릅니다. 오타는 신경 쓰지 않으셔도 알아듣습니다.</p>
+    </div>
+    <div class="step">
+      <div class="sn">② 음성 대화</div>
+      <h3>입력창 오른쪽 끝 파형 버튼</h3>
+      <p>통화하듯 <b>소리로 주고받습니다.</b> 오늘은 앞에서 시연으로 보신 기능이고, 실습에서는 쓰지 않습니다. 나중에 혼자 편하게 해보세요.</p>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h2>A-3. 보안 설정 — 오늘 꼭 하고 가실 것</h2>
+    <p class="desc">경영진이 쓰실 때 가장 중요한 부분입니다. 함께 맞춰 봅니다.</p>
+
+    <div class="step">
+      <div class="sn">보안 01</div>
+      <h3>내 대화로 학습하지 않게 하기</h3>
+      <p>내가 나눈 대화가 AI 성능 개선에 쓰이지 않도록 끕니다.</p>
+      <div class="path">설정 → 데이터 제어 → 모두를 위한 모델 개선 → <b>끄기</b></div>
+    </div>
+
+    <div class="step">
+      <div class="sn">보안 02</div>
+      <h3>기록에 남지 않는 대화</h3>
+      <p>민감한 사안을 다룰 때는 <b>임시 채팅</b>으로 엽니다. 대화 목록에 남지 않고 기억에도 반영되지 않습니다.</p>
+      <div class="path">새 대화 화면 위쪽 → <b>임시 채팅</b> 켜기</div>
+    </div>
+
+    <div class="step">
+      <div class="sn">보안 03</div>
+      <h3>AI가 나에 대해 기억하는 것 확인·삭제</h3>
+      <p>AI는 대화하며 알게 된 것을 기억해 둡니다. 무엇을 기억하는지 직접 열어 확인하시고, 지우실 수 있습니다.</p>
+      <div class="path">설정 → 개인 맞춤 설정 → 메모리(기억) → <b>관리</b></div>
+    </div>
+
+    <div class="step">
+      <div class="sn">보안 04</div>
+      <h3>대화 내보내기와 삭제</h3>
+      <p>필요하면 전체 대화를 파일로 받거나, 계정의 모든 대화를 지울 수 있습니다. 위치만 알아두십시오.</p>
+      <div class="path">설정 → 데이터 제어 → <b>데이터 내보내기 / 모든 대화 삭제</b></div>
+    </div>
+
+    <div class="note">
+      <b>입력하면 안 되는 다섯 가지</b>
+      <ul>
+        <li>고객 개인정보 (이름·주민번호·계좌·연락처)</li>
+        <li>공개 전 재무 수치와 경영 실적</li>
+        <li>인사 평가·징계·개인 신상</li>
+        <li>계약서 원문과 미공개 협상 조건</li>
+        <li>내부 시스템 정보·비밀번호·접속 경로</li>
+      </ul>
+      <p style="margin-top:12px"><b>원칙</b> — 회사가 승인한 도구와 계정으로만, 결과물은 반드시 사람이 최종 확인합니다.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══ B 첫 그림 ══ -->
+<div class="panel on" id="pB">
+    <div class="sec">
+    <h2>3분이면 됩니다</h2>
+    <p class="desc">그림 실력도, 디자인 지식도 필요 없습니다. 말로 시키면 됩니다.</p>
+
+    <div class="step">
+      <div class="sn">STEP 1</div>
+      <h3>마이크를 누르고 말합니다</h3>
+      <p>입력창 안의 <b>마이크</b>를 누르고 아래 문장을 읽어 주세요. 10초에서 30초 정도면 그림이 나옵니다.</p>
+    </div>
+
+    <div class="say-card">
+      <div class="cap">이렇게 말씀하세요</div>
+      <div class="quote" onclick="cp(this)">추석 명절에 거래처와 직원들에게 보낼 인사 이미지를 하나 만들어줘. 따뜻하고 단정한 느낌으로, 한가위 인사 문구를 넣어줘.</div>
+      <button class="copy" onclick="cpBtn(this)">문장 복사하기</button>
+    </div>
+
+    <details class="more">
+      <summary>다른 걸 그리고 싶으실 때</summary>
+      <div class="inner">
+        <div class="say-card" style="margin-bottom:8px">
+          <div class="quote" onclick="cp(this)">우리 부서 워크숍 안내에 쓸 이미지를 만들어줘. 밝고 단정한 느낌으로, 글씨는 크게 넣어줘.</div>
+        </div>
+        <div class="say-card" style="margin-bottom:8px">
+          <div class="quote" onclick="cp(this)">가을 들녘과 수확을 주제로 한 차분한 배경 이미지를 만들어줘. 글씨는 넣지 말고 배경만.</div>
+        </div>
+        <div class="say-card">
+          <div class="quote" onclick="cp(this)">다음 주 발표 자료 표지에 쓸 이미지를 만들어줘. 주제는 '변화의 시작'이고, 너무 화려하지 않게.</div>
+        </div>
+      </div>
+    </details>
+
+    <div class="step">
+      <div class="sn">STEP 2</div>
+      <h3>마음에 안 들면, 고쳐 달라고 합니다</h3>
+      <p>여기가 요령입니다. <b>새로 만들지 마시고 고쳐 달라</b>고 하세요. 무료 계정은 하루에 두세 장까지라, 새로 만들면 금방 소진됩니다.</p>
+    </div>
+
+    <div class="say-card">
+      <div class="cap">이어서 이렇게</div>
+      <div class="quote" onclick="cp(this)">글씨를 더 크게 하고, 배경은 조금 더 밝게 바꿔줘.</div>
+      <button class="copy" onclick="cpBtn(this)">문장 복사하기</button>
+    </div>
+    <details class="more">
+      <summary>고칠 때 쓰는 다른 말들</summary>
+      <div class="inner">
+        <div class="say-card" style="margin-bottom:8px">
+          <div class="quote" onclick="cp(this)">문구만 '풍성한 한가위 되세요'로 바꿔줘. 나머지는 그대로 두고.</div>
+        </div>
+        <div class="say-card" style="margin-bottom:8px">
+          <div class="quote" onclick="cp(this)">색을 조금 차분하게 바꿔줘. 지금은 너무 화려해.</div>
+        </div>
+        <div class="say-card">
+          <div class="quote" onclick="cp(this)">가로로 긴 형태로 다시 만들어줘. 메일에 넣을 거야.</div>
+        </div>
+      </div>
+    </details>
+
+    <div class="step">
+      <div class="sn">STEP 3</div>
+      <h3>저장해 두십시오</h3>
+      <p>그림을 <b>길게 누르면</b> 저장하거나 공유할 수 있습니다. 3주 뒤 추석에 그대로 쓰시면 됩니다.</p>
+    </div>
+
+    <div class="note">
+      <b>대외로 나갈 이미지라면</b>
+      <ul>
+        <li>글자가 어색하게 나올 때가 있습니다. <b>보내기 전에 눈으로 확인</b>하십시오.</li>
+        <li>회사 로고나 실존 인물은 넣지 않는 편이 안전합니다.</li>
+        <li>하루 두세 장 한도입니다. 오늘은 <b>한 장</b>이면 충분합니다.</li>
+      </ul>
+    </div>
+
+    <div class="note">
+      <b>방금 하신 것이 무엇이냐면</b><br>
+      디자인을 배우신 게 아닙니다. <b>말로 일을 시키신 것</b>입니다. 다음 단계부터는 같은 방식으로 훨씬 무거운 일을 맡겨 보겠습니다.
+    </div>
+  </div>
+</div>
+
+<!-- ══ C 되묻게 ══ -->
+<div class="panel" id="pC">
+    <div class="sec">
+    <h2>같은 요청, 두 번 해봅니다</h2>
+    <p class="desc">차이를 직접 보시는 게 목적입니다.</p>
+
+    <div class="step">
+      <div class="sn">STEP 1</div>
+      <h3>먼저 그냥 시켜봅니다</h3>
+      <p>마이크를 누르고 아래를 말씀하세요. 아마 <b>맥락 없는 일반론</b>이 나올 겁니다.</p>
+    </div>
+    <div class="say-card">
+      <div class="cap">이렇게 말씀하세요</div>
+      <div class="quote" onclick="cp(this)">다음 주 임원 회의에서 쓸 발언 요지를 만들어줘.</div>
+      <button class="copy" onclick="cpBtn(this)">문장 복사하기</button>
+    </div>
+
+    <div class="step">
+      <div class="sn">STEP 2</div>
+      <h3>이번엔 한 문장을 붙입니다</h3>
+      <p>새 대화를 열고 같은 요청에 <b>아래 한 줄</b>을 붙여 말씀해 보세요.</p>
+    </div>
+    <div class="say-card">
+      <div class="cap">오늘의 핵심 한 문장</div>
+      <div class="quote" onclick="cp(this)">다음 주 임원 회의에서 쓸 발언 요지를 만들어줘. 그런데 바로 답하지 말고, 먼저 네가 나에게 물어봐야 할 질문을 해줘.</div>
+      <button class="copy" onclick="cpBtn(this)">문장 복사하기</button>
+    </div>
+
+    <div class="step">
+      <div class="sn">STEP 3</div>
+      <h3>되묻는 질문에 말로 답합니다</h3>
+      <p>회의 성격, 참석자, 목적을 물어올 겁니다. <b>마이크로 편하게 답하세요.</b> 그다음 나오는 결과를 앞의 것과 비교해 보십시오.</p>
+    </div>
+
+    <div class="note">
+      <b>왜 이게 되는가</b><br>
+      일 잘하는 리더는 지시를 받으면 바로 뛰지 않습니다. 먼저 확인합니다. AI에게도 똑같이 시키면 됩니다.
+      프롬프트를 길게 쓰는 기술을 배우실 필요가 없습니다. <b>"먼저 물어봐" 한 줄</b>이면 충분합니다.
+    </div>
+
+    <div class="note">
+      <b>경영진 관점에서 보시면</b><br>
+      실무진도 앞으로 이 방식으로 일합니다. 앞으로 받으실 보고서의 질은 <b>그들이 AI에게 무엇을 되묻게 했는지</b>로 갈립니다.
+      보고를 받으실 때 <b>"AI가 뭐라고 되물었나"</b> 한 번 물어보시면, 그 사람이 얼마나 깊이 봤는지 바로 드러납니다.
+    </div>
+
+    <details class="more">
+      <summary>같이 쓰면 좋은 한 줄들</summary>
+      <div class="inner">
+        <div class="say-card" style="margin-bottom:8px">
+          <div class="quote" onclick="cp(this)">작업을 끝내기 전에, 확인이 필요한 것이 있으면 먼저 물어봐.</div>
+        </div>
+        <div class="say-card" style="margin-bottom:8px">
+          <div class="quote" onclick="cp(this)">네가 확신하기 어려운 부분은 솔직하게 표시해줘.</div>
+        </div>
+        <div class="say-card">
+          <div class="quote" onclick="cp(this)">추측한 내용에는 [추정]이라고 붙여줘.</div>
+        </div>
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- ══ C ══ -->
+<div class="panel" id="pD">
+    <div class="sec">
+    <h2>함께 하는 두 가지</h2>
+    <p class="desc">앞에 붙일 안건은 머릿속에 있는 것으로 충분합니다. 말로 설명하시면 됩니다.</p>
+
+    <div class="step">
+      <div class="sn">먼저</div>
+      <h3>안건을 말하고, 되묻게 합니다</h3>
+      <p>안건을 두세 문장으로 말씀하신 뒤, <b>"바로 답하지 말고 먼저 네가 나에게 물어봐야 할 질문을 해줘"</b>를 붙이세요. AI가 되물으면 말로 답하시면 됩니다.</p>
+    </div>
+
+    <div class="step">
+      <div class="sn">그다음</div>
+      <h3>보고와 회의를 압축한다</h3>
+      <p>회의는 <b>보고를 듣는 시간이 아니라 결정을 내리는 시간</b>이어야 합니다. 먼저 안건을 두세 문장으로 말한 뒤, 아래를 이어 말씀하세요.</p>
+    </div>
+    <div class="say-card">
+      <div class="cap">이렇게 말씀하세요</div>
+      <div class="quote" onclick="cp(this)">이 안건을 3줄 결론, 핵심 리스크 세 가지, 그리고 이 보고서에 숨어 있는 가정으로 나눠서 정리해줘. 마지막에 오늘 내가 결정해야 할 것이 무엇인지 한 문장으로 규정해줘.</div>
+      <button class="copy" onclick="cpBtn(this)">문장 복사하기</button>
+    </div>
+
+    <div class="step">
+      <div class="sn">공통 2</div>
+      <h3>악마의 변호인을 세운다</h3>
+      <p>가장 까다로운 질문을 <b>미리 받아 보는 것</b>이 목적입니다. 질문의 질이 결정의 질을 바꿉니다.</p>
+    </div>
+    <div class="say-card">
+      <div class="cap">이렇게 말씀하세요</div>
+      <div class="quote" onclick="cp(this)">내가 이 안건에 반대하는 이사회 멤버라면 던질 가장 날카로운 질문 열 가지를 만들어줘. 그중 내가 지금 답하기 어려운 것이 무엇인지도 짚어줘.</div>
+      <button class="copy" onclick="cpBtn(this)">문장 복사하기</button>
+    </div>
+
+    <div class="note">
+      <b>경영진 관점에서 보시면</b>
+      <ul>
+        <li>AI에게 맡길 것은 <b>결론이 아니라 결론 앞의 준비</b>입니다.</li>
+        <li>판단과 책임은 그대로 남습니다. 이건 위임되지 않습니다.</li>
+        <li>실무진에게 물으실 것 — "이 결론의 근거가 어디 있나", "틀렸을 때 누가 걸러내나".</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h2>골라서 해보실 세 가지</h2>
+    <p class="desc">시간이 남으시거나, 자리에 돌아가셔서 이어 하실 때 쓰십시오.</p>
+
+    <details class="more">
+      <summary>선택 1 — 찬반 논리를 5대 5로 분해</summary>
+      <div class="inner">
+        <p style="font-size:var(--fs-base);color:var(--ink-2);margin-bottom:12px">확증 편향을 걷어내고 균형 잡힌 시각을 확보합니다.</p>
+        <div class="say-card">
+          <div class="quote" onclick="cp(this)">이 안건의 찬성 논리 다섯 개와 반대 논리 다섯 개를 균형 있게 정리해줘. 어느 쪽으로도 기울지 말고 같은 무게로 써줘.</div>
+        </div>
+      </div>
+    </details>
+
+    <details class="more">
+      <summary>선택 2 — 실패 시나리오와 조기 경보</summary>
+      <div class="inner">
+        <p style="font-size:var(--fs-base);color:var(--ink-2);margin-bottom:12px">실패 원인을 미리 파악하고, 그것을 감지할 지표를 만듭니다.</p>
+        <div class="say-card">
+          <div class="quote" onclick="cp(this)">이 일이 1년 뒤 실패했다고 가정하고, 가장 가능성 높은 원인 다섯 가지를 순서대로 써줘. 그리고 각 원인을 미리 감지할 수 있는 조기 경보 지표를 하나씩 붙여줘.</div>
+        </div>
+      </div>
+    </details>
+
+    <details class="more">
+      <summary>선택 3 — 기술을 가치와 재무의 언어로</summary>
+      <div class="inner">
+        <p style="font-size:var(--fs-base);color:var(--ink-2);margin-bottom:12px">기술 설명을 고객 가치와 재무 영향으로 번역합니다.</p>
+        <div class="say-card">
+          <div class="quote" onclick="cp(this)">이 내용을 기술 설명 없이 다시 써줘. 첫째 고객 경험이 어떻게 바뀌는지, 둘째 비용과 시간에 어떤 변화가 생기는지, 셋째 어떤 지표로 성과를 볼 것인지 순서로 다섯 문장 이내로 정리해줘.</div>
+        </div>
+      </div>
+    </details>
+
+    <details class="more">
+      <summary>선택 4 — 우리 조직의 한 문장</summary>
+      <div class="inner">
+        <p style="font-size:var(--fs-base);color:var(--ink-2);margin-bottom:12px">"우리 조직은 AI를 어떻게 볼 것인가"를 한 문장으로 정리하고, 대상별로 톤을 바꿉니다.</p>
+        <div class="say-card">
+          <div class="quote" onclick="cp(this)">우리 조직이 AI를 어떻게 볼 것인지 한 문장으로 정리해줘. 그리고 그 한 문장을 이사회용, 임직원용, 외부 발표용으로 각각 톤을 바꿔서 세 가지 버전으로 써줘.</div>
+        </div>
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- ══ D ══ -->
+<div class="panel" id="pE">
+    <div class="sec">
+    <h2>심층 리서치 걸어두기</h2>
+    <p class="desc">AI가 수십 개 자료를 직접 찾아 읽고 보고서를 씁니다. 몇 분에서 수십 분이 걸립니다.</p>
+
+    <div class="step">
+      <div class="sn">STEP 1</div>
+      <h3>심층 리서치를 켭니다</h3>
+      <p>입력창의 <b>＋(플러스)</b>를 누르고 <b>심층 리서치</b>를 고릅니다. 남은 사용 횟수가 함께 표시됩니다.</p>
+      <div class="path">입력창 ＋ → <b>심층 리서치</b></div>
+    </div>
+
+    <div class="step">
+      <div class="sn">STEP 2</div>
+      <h3>주제를 말로 설명합니다</h3>
+      <p>아래 예시를 쓰시거나, 요즘 궁금하신 주제를 편하게 말씀하셔도 됩니다.</p>
+    </div>
+    <div class="say-card">
+      <div class="cap">예시 — 그대로 쓰셔도 됩니다</div>
+      <div class="quote" onclick="cp(this)">국내 주요 금융그룹의 AI 도입 현황을 조사해서 비교 보고서로 정리해줘. 각 그룹이 어디에 먼저 적용했는지, 어떤 성과를 발표했는지, 우리가 참고할 시사점은 무엇인지 순서로 써줘.</div>
+      <button class="copy" onclick="cpBtn(this)">문장 복사하기</button>
+    </div>
+    <details class="more">
+      <summary>다른 주제 예시</summary>
+      <div class="inner">
+        <div class="say-card" style="margin-bottom:8px">
+          <div class="quote" onclick="cp(this)">해외 농업 분야에서 AI가 실제 성과를 낸 사례를 조사해서, 우리 조직이 참고할 만한 것 위주로 비교 정리해줘.</div>
+        </div>
+        <div class="say-card">
+          <div class="quote" onclick="cp(this)">최근 1년간 국내 금융 규제 중 AI 활용과 관련해 바뀐 내용을 정리하고, 경영진이 알아야 할 시사점을 붙여줘.</div>
+        </div>
+      </div>
+    </details>
+
+    <div class="step">
+      <div class="sn">STEP 3</div>
+      <h3>계획을 확인하고 실행만 누릅니다</h3>
+      <p>AI가 <b>"이렇게 조사하겠습니다"</b>라며 계획을 보여줍니다. 고칠 게 없으면 그대로 실행하시면 됩니다. 여기까지가 오늘 하실 일입니다.</p>
+    </div>
+
+    <div class="step">
+      <div class="sn">STEP 4</div>
+      <h3>자리에 돌아가셔서 받으십시오</h3>
+      <p>완성되면 <b>알림이 옵니다.</b> 보고서는 Word나 PDF로 내려받을 수 있습니다. <b>이 파일이 2차 실습 재료입니다.</b> 지우지 마시고 두세요.</p>
+    </div>
+
+    <div class="note">
+      <b>알아두실 것</b>
+      <ul>
+        <li>무료 계정은 사용 횟수에 한도가 있습니다. <b>오늘은 한 건만</b> 실행해 주세요. (유료 계정은 여러 건을 동시에 돌릴 수 있습니다)</li>
+        <li>실행 후 앱을 닫으셔도 됩니다. 알아서 돌아갑니다.</li>
+        <li>결과에는 출처 링크가 함께 옵니다. 중요한 수치는 원문을 확인하십시오.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="mission">
+    <div class="ml">다음 시간까지</div>
+    <div class="mt">딱 세 번만, 일을 시켜보십시오.</div>
+    <div class="md">무엇을 시키셨는지 적어 오지 않으셔도 됩니다. 횟수만 기억해 주세요. 2차 첫 질문입니다.</div>
+  </div>
+</div>
+
+<!-- ══ 준비 ══ -->
+<div class="panel" id="p0">
+  <div class="sec">
+    <h2>시작 전 준비</h2>
+    <p class="desc">어려우시면 손을 들어 주세요. 도와드립니다.</p>
+    <div class="step">
+      <div class="sn">01</div>
+      <h3>ChatGPT 앱 설치와 로그인</h3>
+      <p>앱스토어에서 <b>ChatGPT</b>를 받으신 뒤 <b>구글 계정으로 계속하기</b>를 누르시면 가장 빠릅니다. <b>무료 계정으로 충분합니다.</b></p>
+    </div>
+    <div class="step">
+      <div class="sn">02</div>
+      <h3>앱 최신 버전 확인</h3>
+      <p>최근에 추가된 기능이 많아, 앱이 오래되면 화면이 다르게 보일 수 있습니다. 앱스토어에서 <b>업데이트</b>를 확인해 주세요.</p>
+    </div>
+    <div class="step">
+      <div class="sn">03</div>
+      <h3>마이크와 알림 권한 허용</h3>
+      <p>오늘은 타이핑 대신 말로 진행합니다. 처음 마이크를 누르면 권한을 묻는데 <b>허용</b>을 눌러 주세요. 알림도 켜두시면 리서치 완료를 바로 받으실 수 있습니다.</p>
+    </div>
+    <div class="note">
+      <b>알아두시면 편한 것</b>
+      <ul>
+        <li>와이파이 없이 <b>휴대폰 데이터</b>로 됩니다.</li>
+        <li>결제나 구독은 필요 없습니다.</li>
+        <li>이미 유료로 쓰고 계셔도 화면은 같습니다.</li>
+        <li>다음 시간(9/15)에는 <b>NotebookLM</b> 앱이 추가로 필요합니다.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<div class="toast" id="toast">복사했습니다</div>
+<div class="fz">
+  <button onclick="fz(-1)" aria-label="글자 작게">가−</button>
+  <button onclick="fz(1)" aria-label="글자 크게">가＋</button>
+</div>
+
+<script>
+var HERO = {
+  pA:{n:"＋",u:"설정",s:"강의장에서는 넘어갑니다.<br>자리에서 꼭 해보십시오."},
+  pB:{n:"1",u:"번",s:"먼저 가볍게<br>그림 한 장 그려 봅니다."},
+  pC:{n:"＋",u:"연습",s:"프롬프트를 잘 쓰려 애쓰지 않고,<br>AI가 먼저 묻게 만듭니다."},
+  pD:{n:"2",u:"번",s:"지금 손에 있는 실제 안건으로<br>결과물을 만들어 봅니다."},
+  pE:{n:"3",u:"번",s:"하나 걸어두고 나가시면,<br>자리에 앉으실 즈음 도착합니다."}
+};
+document.querySelectorAll('.tab').forEach(function(b){
+  b.addEventListener('click',function(){
+    document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on')});
+    document.querySelectorAll('.panel').forEach(function(x){x.classList.remove('on')});
+    b.classList.add('on');
+    document.getElementById(b.dataset.p).classList.add('on');
+    var h=HERO[b.dataset.p], box=document.getElementById('hero');
+    if(h){box.style.display='block';
+      document.getElementById('heroNum').firstChild.nodeValue=h.n;
+      document.getElementById('heroUnit').textContent=h.u;
+      document.getElementById('heroSay').innerHTML=h.s;}
+    else{box.style.display='none';}
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+});
+function mark(el){el.classList.toggle('done')}
+function toast(){var t=document.getElementById('toast');t.classList.add('on');
+  clearTimeout(window._t);window._t=setTimeout(function(){t.classList.remove('on')},1600)}
+function write(s){
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(s).then(toast,function(){fb(s)})}
+  else{fb(s)}
+}
+function fb(s){var a=document.createElement('textarea');a.value=s;a.style.position='fixed';
+  a.style.opacity='0';document.body.appendChild(a);a.select();
+  try{document.execCommand('copy');toast()}catch(e){}document.body.removeChild(a)}
+function cp(el){write(el.textContent.trim())}
+function cpBtn(b){
+  var q=b.parentElement.querySelector('.quote');
+  write(q.textContent.trim());
+  b.classList.add('ok');b.textContent='복사했습니다 ✓';
+  setTimeout(function(){b.classList.remove('ok');b.textContent='문장 복사하기'},1600);
+}
+var fs=16;
+function fz(d){fs=Math.max(15,Math.min(22,fs+d));
+  document.documentElement.style.setProperty('--fs-base',fs+'px');
+  document.documentElement.style.setProperty('--fs-lg',(fs+1)+'px');}
+</script>
+</body>
+</html>
